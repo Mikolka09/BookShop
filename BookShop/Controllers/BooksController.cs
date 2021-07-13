@@ -7,22 +7,36 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookShop.Data;
 using BookShop.Models;
+using BookShop.ViewModels;
 
 namespace BookShop.Controllers
 {
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public List<Author> authors;
+        public List<Themes> themes;
+        public List<Book> books;
+        SelectModelAuthorsThemes model;
 
         public BooksController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Books
-        public async Task<IActionResult> Index()
+        public SelectModelAuthorsThemes ModelsBase()
         {
-            return View(await _context.Book.ToListAsync());
+            authors = new List<Author>(_context.Author.ToList());
+            themes = new List<Themes>(_context.Themes.ToList());
+            books = new List<Book>(_context.Book.ToList());
+            model = new SelectModelAuthorsThemes { AuthorList = authors, ThemeList = themes, BookList = books };
+            return model;
+        }
+
+        // GET: Books
+        public ActionResult Index()
+        {
+            return View(ModelsBase());
         }
 
         // GET: Books/Details/5
@@ -46,6 +60,8 @@ namespace BookShop.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
+            ViewBag.Themes = new SelectList(_context.Themes, "Id", "Name");
+            ViewBag.Authors = new SelectList(_context.Author, "Id", "Name");
             return View();
         }
 

@@ -1,10 +1,10 @@
-﻿@model IEnumerable<BookShop.Models.Book>
+﻿@model SelectModelAuthorsThemes
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Books";
 }
 
-<h1>Index</h1>
+<h1>Books</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,31 +13,31 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayName(nameof(Book.Name))
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ShortDesc)
+                @Html.DisplayName(nameof(Book.ShortDesc))
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Pages)
+                @Html.DisplayName(nameof(Book.Pages))
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @Html.DisplayName(nameof(Book.Price))
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PublishDate)
+                @Html.DisplayName(nameof(Book.PublishDate))
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AuthorId)
+                @Html.DisplayName(nameof(Book.AuthorId))
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ThemeId)
+                @Html.DisplayName(nameof(Book.ThemeId))
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.BookList) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -49,16 +49,16 @@
                 @Html.DisplayFor(modelItem => item.Pages)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                @Html.DisplayFor(modelItem => item.Price, "Price")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PublishDate)
+                @Html.DisplayFor(modelItem => item.PublishDate, "Date")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AuthorId)
+                @Html.DisplayFor(modelItem => Model.AuthorList.FirstOrDefault(p => p.Id == item.AuthorId).Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ThemeId)
+                @Html.DisplayFor(modelItem => Model.ThemeList.FirstOrDefault(p => p.Id == item.ThemeId).Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -46,8 +46,8 @@ namespace BookShop.Controllers
             {
                 return NotFound();
             }
-            ViewData.Clear();
-            ViewBag.Country = _context.Countries.FirstOrDefault(m => m.Id == id).Name;
+            int cId = _context.Author.FirstOrDefault(m => m.Id == id).CountryId;
+            ViewBag.Country = _context.Countries.FirstOrDefault(m => m.Id == cId).Name;
             var author = await _context.Author
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (author == null)
