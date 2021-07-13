@@ -7,22 +7,35 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookShop.Data;
 using BookShop.Models;
+using BookShop.ViewModels;
 
 namespace BookShop.Controllers
 {
     public class ShopsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public List<Countries> countries;
+        public List<Shops> shops;
+        SelectModelCoutryShops model;
 
         public ShopsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Shops
-        public async Task<IActionResult> Index()
+        public SelectModelCoutryShops ModelsCountry()
         {
-            return View(await _context.Shops.ToListAsync());
+            countries = new List<Countries>(_context.Countries.ToList());
+            shops = new List<Shops>(_context.Shops.ToList());
+            model = new SelectModelCoutryShops { CountryList = countries, ShopsList = shops };
+            return model;
+        }
+
+        // GET: Shops
+        public IActionResult Index()
+        {
+           
+            return View(ModelsCountry());
         }
 
         // GET: Shops/Details/5
@@ -32,7 +45,8 @@ namespace BookShop.Controllers
             {
                 return NotFound();
             }
-
+            int sId = _context.Shops.FirstOrDefault(m => m.Id == id).CountryId;
+            ViewBag.Country = _context.Countries.FirstOrDefault(m => m.Id == sId).Name;
             var shops = await _context.Shops
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (shops == null)
@@ -46,6 +60,7 @@ namespace BookShop.Controllers
         // GET: Shops/Create
         public IActionResult Create()
         {
+            ViewBag.Countries = new SelectList(_context.Countries, "Id", "Name");
             return View();
         }
 
@@ -72,7 +87,7 @@ namespace BookShop.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.Countries = new SelectList(_context.Countries, "Id", "Name");
             var shops = await _context.Shops.FindAsync(id);
             if (shops == null)
             {

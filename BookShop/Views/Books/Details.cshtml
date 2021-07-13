@@ -32,25 +32,25 @@
             @Html.DisplayNameFor(model => model.Price)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
+            @Html.DisplayFor(model => model.Price, "Price")
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.PublishDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PublishDate)
+            @Html.DisplayFor(model => model.PublishDate, "Date")
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.AuthorId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AuthorId)
+            @ViewBag.Author
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ThemeId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ThemeId)
+            @ViewBag.Theme
         </dd>
     </dl>
 </div>

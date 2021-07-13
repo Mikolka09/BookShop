@@ -7,22 +7,36 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookShop.Data;
 using BookShop.Models;
+using BookShop.ViewModels;
 
 namespace BookShop.Controllers
 {
     public class SalesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public List<Book> books;
+        public List<Shops> shops;
+        public List<Sales> sales;
+        SelectModelBooksShops model;
 
         public SalesController(ApplicationDbContext context)
         {
             _context = context;
         }
+        public SelectModelBooksShops ModelsBase()
+        {
+            sales = new List<Sales>(_context.Sales.ToList());
+            shops = new List<Shops>(_context.Shops.ToList());
+            books = new List<Book>(_context.Book.ToList());
+            model = new SelectModelBooksShops { ShopsList = shops, BooksList = books, SalesList = sales };
+            return model;
+        }
+
 
         // GET: Sales
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Sales.ToListAsync());
+            return View(ModelsBase());
         }
 
         // GET: Sales/Details/5
@@ -32,7 +46,10 @@ namespace BookShop.Controllers
             {
                 return NotFound();
             }
-
+            var sId = _context.Sales.FirstOrDefault(m => m.Id == id).ShopId;
+            var bId = _context.Sales.FirstOrDefault(m => m.Id == id).BookId;
+            ViewBag.Shop = _context.Shops.FirstOrDefault(m => m.Id == sId).Name;
+            ViewBag.Book = _context.Book.FirstOrDefault(m => m.Id == bId).Name;
             var sales = await _context.Sales
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (sales == null)
@@ -46,6 +63,8 @@ namespace BookShop.Controllers
         // GET: Sales/Create
         public IActionResult Create()
         {
+            ViewBag.Shops = new SelectList(_context.Shops, "Id", "Name");
+            ViewBag.Books = new SelectList(_context.Book, "Id", "Name");
             return View();
         }
 
@@ -72,7 +91,8 @@ namespace BookShop.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.Shops = new SelectList(_context.Shops, "Id", "Name");
+            ViewBag.Books = new SelectList(_context.Book, "Id", "Name");
             var sales = await _context.Sales.FindAsync(id);
             if (sales == null)
             {

@@ -46,7 +46,10 @@ namespace BookShop.Controllers
             {
                 return NotFound();
             }
-
+            var tId = _context.Book.FirstOrDefault(m => m.Id == id).ThemeId;
+            var aId = _context.Book.FirstOrDefault(m => m.Id == id).AuthorId;
+            ViewBag.Author = _context.Author.FirstOrDefault(m => m.Id == aId).Name;
+            ViewBag.Theme = _context.Themes.FirstOrDefault(m => m.Id == tId).Name;
             var book = await _context.Book
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
@@ -88,7 +91,8 @@ namespace BookShop.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.Themes = new SelectList(_context.Themes, "Id", "Name");
+            ViewBag.Authors = new SelectList(_context.Author, "Id", "Name");
             var book = await _context.Book.FindAsync(id);
             if (book == null)
             {

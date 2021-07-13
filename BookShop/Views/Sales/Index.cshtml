@@ -1,52 +1,52 @@
-﻿@model IEnumerable<BookShop.Models.Sales>
+﻿@model SelectModelBooksShops
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Sales";
 }
 
-<h1>Index</h1>
+<h1>Sales</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
-    <thead>
+    <thead style="background-color:antiquewhite">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @Html.DisplayName(nameof(Sales.Price))
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Quantity)
+                @Html.DisplayName(nameof(Sales.Quantity))
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SaleDate)
+                @Html.DisplayName(nameof(Sales.SaleDate))
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BookId)
+                @Html.DisplayName(nameof(Sales.BookId))
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ShopId)
+                @Html.DisplayName(nameof(Sales.ShopId))
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.SalesList) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                @Html.DisplayFor(modelItem => item.Price, "Price")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SaleDate)
+                @Html.DisplayFor(modelItem => item.SaleDate, "Date")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BookId)
+                @Html.DisplayFor(modelItem => Model.BooksList.FirstOrDefault(p=>p.Id == item.BookId).Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ShopId)
+                @Html.DisplayFor(modelItem => Model.ShopsList.FirstOrDefault(p=>p.Id == item.ShopId).Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
