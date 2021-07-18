@@ -13,25 +13,25 @@
     <thead style="background-color:antiquewhite">
         <tr>
             <th>
-                @Html.DisplayName(nameof(Book.Name))
+                @Html.DisplayNameFor(model => model.BookList.FirstOrDefault().Name)
             </th>
             <th>
-                @Html.DisplayName(nameof(Book.ShortDesc))
+                @Html.DisplayNameFor(model => model.BookList.FirstOrDefault().ShortDesc)
             </th>
             <th>
-                @Html.DisplayName(nameof(Book.Pages))
+                @Html.DisplayNameFor(model => model.BookList.FirstOrDefault().Pages)
             </th>
             <th>
-                @Html.DisplayName(nameof(Book.Price))
+                @Html.DisplayNameFor(model => model.BookList.FirstOrDefault().Price)
             </th>
             <th>
-                @Html.DisplayName(nameof(Book.PublishDate))
+                @Html.DisplayNameFor(model => model.BookList.FirstOrDefault().PublishDate)
             </th>
             <th>
-                @Html.DisplayName(nameof(Book.AuthorId))
+                @Html.DisplayNameFor(model => model.BookList.FirstOrDefault().AuthorId)
             </th>
             <th>
-                @Html.DisplayName(nameof(Book.ThemeId))
+                @Html.DisplayNameFor(model => model.BookList.FirstOrDefault().ThemeId)
             </th>
             <th></th>
         </tr>

@@ -13,10 +13,10 @@
     <thead style="background-color:antiquewhite">
         <tr>
             <th>
-                @Html.DisplayName(nameof(Shops.Name))
+                @Html.DisplayNameFor(model => model.ShopsList.FirstOrDefault().Name)
             </th>
             <th>
-                @Html.DisplayName(nameof(Shops.CountryId))
+                @Html.DisplayNameFor(model => model.ShopsList.FirstOrDefault().CountryId)
             </th>
             <th></th>
         </tr>

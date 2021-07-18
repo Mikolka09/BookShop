@@ -15,10 +15,10 @@
     <thead style="background-color:antiquewhite">
         <tr>
             <th>
-                @Html.DisplayName(nameof(Author.Name))
+                @Html.DisplayNameFor(model => model.AuthorList.FirstOrDefault().Name)
             </th>
             <th>
-                @Html.DisplayName(nameof(Author.CountryId))
+                @Html.DisplayNameFor(model => model.AuthorList.FirstOrDefault().CountryId)
             </th>
             <th></th>
         </tr>

@@ -13,19 +13,19 @@
     <thead style="background-color:antiquewhite">
         <tr>
             <th>
-                @Html.DisplayName(nameof(Sales.Price))
+                @Html.DisplayNameFor(model => model.SalesList.FirstOrDefault().BookId)
             </th>
             <th>
-                @Html.DisplayName(nameof(Sales.Quantity))
+                @Html.DisplayNameFor(model => model.SalesList.FirstOrDefault().Quantity)
             </th>
             <th>
-                @Html.DisplayName(nameof(Sales.SaleDate))
+                @Html.DisplayNameFor(model => model.SalesList.FirstOrDefault().Price)
             </th>
             <th>
-                @Html.DisplayName(nameof(Sales.BookId))
+                @Html.DisplayNameFor(model => model.SalesList.FirstOrDefault().SaleDate)
             </th>
             <th>
-                @Html.DisplayName(nameof(Sales.ShopId))
+                @Html.DisplayNameFor(model => model.SalesList.FirstOrDefault().ShopId)
             </th>
             <th></th>
         </tr>
@@ -34,16 +34,16 @@
 @foreach (var item in Model.SalesList) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Price, "Price")
+                @Html.DisplayFor(modelItem => Model.BooksList.FirstOrDefault(p => p.Id == item.BookId).Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SaleDate, "Date")
+                @Html.DisplayFor(modelItem => item.Price, "Price")  
             </td>
             <td>
-                @Html.DisplayFor(modelItem => Model.BooksList.FirstOrDefault(p=>p.Id == item.BookId).Name)
+                @Html.DisplayFor(modelItem => item.SaleDate, "Date")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => Model.ShopsList.FirstOrDefault(p=>p.Id == item.ShopId).Name)
