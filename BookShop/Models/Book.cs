@@ -29,6 +29,8 @@ namespace BookShop.Models
         [RegularExpression("[0-9]*", ErrorMessageResourceName = "Page", ErrorMessageResourceType = typeof(Resources.Resources))]
         public int Pages { get; set; }
 
+        public HashSet<string> Codes { get; set; }
+
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Resources.Resources))]
         [RegularExpression(@"^[0-9]*\.?[0-9]{0,2}$", ErrorMessageResourceName ="Price", ErrorMessageResourceType =typeof(Resources.Resources))]
         public ushort Price { get; set; }

@@ -28,7 +28,15 @@ namespace BookShop.Controllers
         {
             authors = new List<Author>(_context.Author.ToList());
             themes = new List<Themes>(_context.Themes.ToList());
-            books = new List<Book>(_context.Book.ToList());
+            try
+            {
+                books = _context.Book.ToList();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
             model = new SelectModelAuthorsThemes { AuthorList = authors, ThemeList = themes, BookList = books };
             return model;
         }
@@ -73,7 +81,7 @@ namespace BookShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ShortDesc,Pages,Price,PublishDate,AuthorId,ThemeId")] Book book)
+        public async Task<IActionResult> Create([Bind("Id,Name,ShortDesc,Pages,Codes,Price,PublishDate,AuthorId,ThemeId")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -106,7 +114,7 @@ namespace BookShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ShortDesc,Pages,Price,PublishDate,AuthorId,ThemeId")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ShortDesc,Pages,Codes,Price,PublishDate,AuthorId,ThemeId")] Book book)
         {
             if (id != book.Id)
             {
@@ -143,7 +151,10 @@ namespace BookShop.Controllers
             {
                 return NotFound();
             }
-
+            var tId = _context.Book.FirstOrDefault(m => m.Id == id).ThemeId;
+            var aId = _context.Book.FirstOrDefault(m => m.Id == id).AuthorId;
+            ViewBag.Author = _context.Author.FirstOrDefault(m => m.Id == aId).Name;
+            ViewBag.Theme = _context.Themes.FirstOrDefault(m => m.Id == tId).Name;
             var book = await _context.Book
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)

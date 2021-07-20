@@ -34,6 +34,7 @@ namespace BookShop.Controllers
 
 
         // GET: Sales
+
         public IActionResult Index()
         {
             return View(ModelsBase());
