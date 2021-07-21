@@ -1,0 +1,62 @@
+﻿@using BookShop.Models
+@using BookShop.Data
+@inject NavigationManager Navigator
+@inject ApplicationDbContext context
+
+<h2>Codes</h2>
+
+@if (book?.Codes != null)
+{
+    <ul type="circle">
+        @foreach (var code in book.Codes)
+        {
+            <li>
+                <div>@(code)</div>
+                <button class="btn btn-danger" @onclick="()=> RemoveCode(code)" type="button">Remove</button>
+            </li>
+        }
+    </ul>
+}
+
+<input type="text" @bind="@newCode" />
+<button class="btn btn-primary" type="button" @onclick="()=> AddCode(newCode)">Add</button>
+
+<input id="Codes" name="Codes" hidden @bind="@codes" />
+
+@code {
+
+    private string codes;
+
+    private string newCode;
+
+    private Book book;
+
+    private static int GetIdFroUrl(string url)
+    {
+        var uri = new Uri(url);
+        var path = uri.LocalPath;
+        var slashIdex = path.LastIndexOf('/');
+        var id = path.Substring(slashIdex + 1);
+        return int.Parse(id);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var bookId = GetIdFroUrl(Navigator.Uri);
+        book = await context.Book.FindAsync(bookId);
+        codes = System.Text.Json.JsonSerializer.Serialize(book.Codes, null);
+    }
+
+    private string RemoveCode(string code)
+    {
+        book.Codes.Remove(code);
+        return codes = System.Text.Json.JsonSerializer.Serialize(book.Codes, null);
+    }
+
+    private string AddCode(string code)
+    {
+        book.Codes.Add(code);
+        newCode = string.Empty;
+        return codes = System.Text.Json.JsonSerializer.Serialize(book.Codes, null);
+    }
+}

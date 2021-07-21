@@ -25,9 +25,9 @@ namespace BookShop.Controllers
         }
         public SelectModelBooksShops ModelsBase()
         {
-            sales = new List<Sales>(_context.Sales.ToList());
-            shops = new List<Shops>(_context.Shops.ToList());
-            books = new List<Book>(_context.Book.ToList());
+            sales = _context.Sales.ToList();
+            shops = _context.Shops.ToList();
+            books = _context.Book.ToList();
             model = new SelectModelBooksShops { ShopsList = shops, BooksList = books, SalesList = sales };
             return model;
         }

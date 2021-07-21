@@ -26,8 +26,8 @@ namespace BookShop.Controllers
        
         public SelectModelCoutryAuthor ModelsCountry()
         {
-            countries = new List<Countries>(_context.Countries.ToList());
-            authors = new List<Author>(_context.Author.ToList());
+            countries = _context.Countries.ToList();
+            authors = _context.Author.ToList();
             model = new SelectModelCoutryAuthor { CountryList = countries, AuthorList = authors };
             return model;
         }

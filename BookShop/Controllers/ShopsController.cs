@@ -25,8 +25,8 @@ namespace BookShop.Controllers
 
         public SelectModelCoutryShops ModelsCountry()
         {
-            countries = new List<Countries>(_context.Countries.ToList());
-            shops = new List<Shops>(_context.Shops.ToList());
+            countries = _context.Countries.ToList();
+            shops = _context.Shops.ToList();
             model = new SelectModelCoutryShops { CountryList = countries, ShopsList = shops };
             return model;
         }

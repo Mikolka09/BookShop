@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BookShop.Data;
 using BookShop.Models;
 using BookShop.ViewModels;
+using System.Text.Json;
 
 namespace BookShop.Controllers
 {
@@ -26,17 +27,10 @@ namespace BookShop.Controllers
 
         public SelectModelAuthorsThemes ModelsBase()
         {
-            authors = new List<Author>(_context.Author.ToList());
-            themes = new List<Themes>(_context.Themes.ToList());
-            try
-            {
-                books = _context.Book.ToList();
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            
+            authors = _context.Author.ToList();
+            themes = _context.Themes.ToList();
+            books = _context.Book.ToList();
+                       
             model = new SelectModelAuthorsThemes { AuthorList = authors, ThemeList = themes, BookList = books };
             return model;
         }
@@ -123,6 +117,13 @@ namespace BookShop.Controllers
 
             if (ModelState.IsValid)
             {
+                var codes = JsonSerializer.Deserialize<HashSet<string>>(book.Codes.First(), null);
+                book.Codes.Clear();
+                foreach (var item in codes)
+                {
+                    book.Codes.Add(item);
+                }
+
                 try
                 {
                     _context.Update(book);
